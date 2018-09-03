@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "175908097351",
+    "firebase_url": "https://aiitcamera-8fd37.firebaseio.com",
+    "project_id": "aiitcamera-8fd37",
+    "storage_bucket": "aiitcamera-8fd37.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:175908097351:android:33de638406ecf844",
+        "android_client_info": {
+          "package_name": "com.morningstar.aiitcamera"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "175908097351-nn00tibvad0kt8qs2ttipkaaolr3ndou.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.morningstar.aiitcamera",
+            "certificate_hash": "0fff32a5b52e161fa3c46c1901d596c970954165"
+          }
+        },
+        {
+          "client_id": "175908097351-t19sksb1nh2hmfdptce050a7hp1qogmn.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA8fVws34bzsZ_DjKXUbEHjSwa7QL-OeL4"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "175908097351-t19sksb1nh2hmfdptce050a7hp1qogmn.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
