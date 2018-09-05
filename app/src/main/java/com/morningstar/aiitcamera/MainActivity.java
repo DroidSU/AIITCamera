@@ -19,6 +19,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
+import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.View;
@@ -44,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
     private static final String IMAGE_DIRECTORY_NAME = "AIIT_Cam";
     private CircleImageView camera_image_button;
     private EditText number_input_field;
-    private ImageView display_image;
+    private ImageView display_image, button_about;
     private CircleImageView button_redo, button_sync;
 
     private static int REQUEST_IMAGE_CAPTURE = 69;
@@ -60,6 +61,8 @@ public class MainActivity extends AppCompatActivity {
     private FirebaseStorage firebaseStorage;
     private StorageReference storageReference;
 
+    private boolean isPictureTaken = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -69,6 +72,7 @@ public class MainActivity extends AppCompatActivity {
         number_input_field = findViewById(R.id.input_field);
         button_redo = findViewById(R.id.button_redo);
         button_sync = findViewById(R.id.sync);
+        button_about = findViewById(R.id.about);
         firebaseStorage = FirebaseStorage.getInstance();
         storageReference = firebaseStorage.getReference();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -100,12 +104,25 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 retake();
+                number_input_field.setText(" ");
             }
         });
         button_sync.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                uploadPicture();
+                if (isPictureTaken) {
+                    uploadPicture();
+                } else {
+                    Toast.makeText(MainActivity.this, "Please take a picture first", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+        button_about.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent about_intent = new Intent(MainActivity.this, AboutUsActivity.class);
+                startActivity(about_intent);
             }
         });
     }
@@ -176,8 +193,9 @@ public class MainActivity extends AppCompatActivity {
         image_name = number_input_field.getText().toString();
         String file_name = image_name + ".jpg";
         dir_name = new File(dir, file_name);
+        Uri photoUri = FileProvider.getUriForFile(MainActivity.this, getString(R.string.file_provider_authority), dir_name);
         Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(dir_name));
+        cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri);
         startActivityForResult(cameraIntent, REQUEST_IMAGE_CAPTURE);
     }
 
@@ -191,6 +209,7 @@ public class MainActivity extends AppCompatActivity {
             try {
                 bitmap = BitmapFactory.decodeFile(dir_name.getAbsolutePath());
                 display_image.setImageBitmap(bitmap);
+                isPictureTaken = true;
             } catch (Exception e) {
                 Toast.makeText(this, "Image saved but could not be set", Toast.LENGTH_SHORT).show();
                 e.printStackTrace();

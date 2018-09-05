@@ -10,4 +10,6 @@
     <string name="app_name">AIIT Camera</string>
     <string name="helpline_text">Help Line: 7007934207, 753088806, 9956567366</string>
     <string name="poweredBy">Powered by AIIT Services Pvt. Ltd.</string>
+    <string name="file_provider_authority" translatable="false">com.morningstar.aiitcamera.fileprovider</string>
+    <string name="aboutUs">We provide online data services such as data entry, website and mobile app development and all types of printing. We have also done many projects of Government and Private Sector companies.</string>
 </resources>
