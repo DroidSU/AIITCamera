@@ -36,8 +36,10 @@ import com.google.firebase.storage.UploadTask;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.IOException;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import id.zelory.compressor.Compressor;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -128,11 +130,17 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void uploadPicture() {
+        Bitmap compressor = null;
         bitmap = BitmapFactory.decodeFile(dir_name.getAbsolutePath());
-        if (bitmap!=null) {
+        try {
+            compressor = new Compressor(this).setDestinationDirectoryPath(dir_name.getAbsolutePath()).compressToBitmap(dir_name);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        if (compressor != null) {
             StorageReference child_ref = storageReference.child("images/" + image_name);
             ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream);
+            compressor.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream);
             byte[] compressed_data = byteArrayOutputStream.toByteArray();
 
             UploadTask uploadTask = (UploadTask) child_ref.putBytes(compressed_data).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
